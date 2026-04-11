@@ -544,9 +544,9 @@ footer{border-top:1px solid var(--border);padding:16px 22px;display:flex;align-i
   .atabs{margin:14px 20px 0;}
   .abody{padding:16px 20px 32px;gap:10px;}
   .social-btn{padding:9px;font-size:.78rem;}
-  /* On mobile: g_id_signin is already visible, googleBtn is hidden */
-  #g_id_signin{display:block !important;width:100% !important;}
-  #googleBtn{display:none !important;}
+  /* Google sign-in container — full width on mobile */
+  .g-signin-container{width:100% !important;display:flex !important;justify-content:center;}
+  .g-signin-container>div,.g-signin-container iframe{max-width:100% !important;}
 
   /* ── SHARE MODAL ── */
   .share-modal{border-radius:20px 20px 0 0;max-width:100%;border-bottom:none;}
@@ -833,14 +833,18 @@ footer{border-top:1px solid var(--border);padding:16px 22px;display:flex;align-i
       <div class="aerr" id="aErr"></div>
       <div class="asuccess" id="aSucc"></div>
       <!-- Social sign-in -->
-      <!-- Google Sign-In:
-           Desktop → programmatic One Tap popup
-           Mobile  → official rendered button (tap directly) -->
-      <div id="g_id_signin" style="width:100%;min-height:44px;"></div>
-      <button class="social-btn google-btn" onclick="signInWithGoogle()" id="googleBtn" style="display:none;">
-        <svg width="18" height="18" viewBox="0 0 48 48"><path fill="#EA4335" d="M24 9.5c3.54 0 6.71 1.22 9.21 3.6l6.85-6.85C35.9 2.38 30.47 0 24 0 14.62 0 6.51 5.38 2.56 13.22l7.98 6.19C12.43 13.72 17.74 9.5 24 9.5z"/><path fill="#4285F4" d="M46.98 24.55c0-1.57-.15-3.09-.38-4.55H24v9.02h12.94c-.58 2.96-2.26 5.48-4.78 7.18l7.73 6c4.51-4.18 7.09-10.36 7.09-17.65z"/><path fill="#FBBC05" d="M10.53 28.59c-.48-1.45-.76-2.99-.76-4.59s.27-3.14.76-4.59l-7.98-6.19C.92 16.46 0 20.12 0 24c0 3.88.92 7.54 2.56 10.78l7.97-6.19z"/><path fill="#34A853" d="M24 48c6.48 0 11.93-2.13 15.89-5.81l-7.73-6c-2.15 1.45-4.92 2.3-8.16 2.3-6.26 0-11.57-4.22-13.47-9.91l-7.98 6.19C6.51 42.62 14.62 48 24 48z"/><path fill="none" d="M0 0h48v48H0z"/></svg>
-        Continue with Google
-      </button>
+      <!-- Official Google Sign-In button — rendered by GSI SDK.
+           Works on desktop AND mobile. No popups, no JS click tricks. -->
+      <div class="g-signin-container" id="g_id_signin"
+           style="width:100%;min-height:44px;display:flex;align-items:center;justify-content:center;">
+        <!-- Rendered by _initGSI() once Client ID is set -->
+        <!-- Shown while GSI loads OR if no Client ID set -->
+        <button class="social-btn google-btn" onclick="signInWithGoogle()" id="googleFallbackBtn"
+          style="width:100%;">
+          <svg width="18" height="18" viewBox="0 0 48 48"><path fill="#EA4335" d="M24 9.5c3.54 0 6.71 1.22 9.21 3.6l6.85-6.85C35.9 2.38 30.47 0 24 0 14.62 0 6.51 5.38 2.56 13.22l7.98 6.19C12.43 13.72 17.74 9.5 24 9.5z"/><path fill="#4285F4" d="M46.98 24.55c0-1.57-.15-3.09-.38-4.55H24v9.02h12.94c-.58 2.96-2.26 5.48-4.78 7.18l7.73 6c4.51-4.18 7.09-10.36 7.09-17.65z"/><path fill="#FBBC05" d="M10.53 28.59c-.48-1.45-.76-2.99-.76-4.59s.27-3.14.76-4.59l-7.98-6.19C.92 16.46 0 20.12 0 24c0 3.88.92 7.54 2.56 10.78l7.97-6.19z"/><path fill="#34A853" d="M24 48c6.48 0 11.93-2.13 15.89-5.81l-7.73-6c-2.15 1.45-4.92 2.3-8.16 2.3-6.26 0-11.57-4.22-13.47-9.91l-7.98 6.19C6.51 42.62 14.62 48 24 48z"/><path fill="none" d="M0 0h48v48H0z"/></svg>
+          Continue with Google
+        </button>
+      </div>
       <button class="social-btn github-btn" onclick="signInWithGitHub()">
         <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M12 0C5.374 0 0 5.373 0 12c0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23A11.509 11.509 0 0112 5.803c1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576C20.566 21.797 24 17.3 24 12c0-6.627-5.373-12-12-12z"/></svg>
         Continue with GitHub
@@ -1008,91 +1012,92 @@ function callAI(system,text){
 }
 
 /* ═══════════════════════════════════════════
-   GOOGLE SIGN-IN — polling-based, no timing issues
+   GOOGLE SIGN-IN — simple & reliable everywhere
+   Strategy: always render the official Google button.
+   It works on ALL devices (desktop + mobile) without
+   any programmatic clicking or popup tricks.
 ═══════════════════════════════════════════ */
-let _gsiInitialized=false;
+let _gsiDone=false;
 
-function _ensureGSI(callback){
-  // Poll up to 6s for the GSI library to be available
-  let tries=0;
-  const poll=()=>{
-    if(window.google?.accounts?.id){
-      if(!_gsiInitialized){
-        const cid=localStorage.getItem('ph_google_client_id');
-        if(cid&&cid!=='YOUR_GOOGLE_CLIENT_ID'){
-          try{
-            google.accounts.id.initialize({
-              client_id:cid,
-              callback:handleGoogleCredential,
-              auto_select:false,
-              ux_mode:'popup',
-            });
-            const c=document.getElementById('g_id_signin');
-            if(c){
-              const w=Math.min((c.offsetWidth||window.innerWidth)-32,340);
-              google.accounts.id.renderButton(c,{
-                type:'standard',theme:'outline',size:'large',
-                text:'continue_with',shape:'rectangular',width:Math.max(200,w)
-              });
-            }
-            // On desktop, show our styled button on top of the GSI one
-            const isMob=/iPhone|iPad|iPod|Android|Mobile/i.test(navigator.userAgent)||window.innerWidth<768;
-            const customBtn=document.getElementById('googleBtn');
-            if(customBtn)customBtn.style.display=isMob?'none':'flex';
-            if(c)c.style.display=isMob?'block':'none';
-            _gsiInitialized=true;
-          }catch(e){console.warn('GSI init error:',e);}
-        }
-      }
-      if(callback)callback();
-    }else if(tries++<12){
-      setTimeout(poll,500);
-    }else{
-      toast('⚠','Google Sign-In could not load. Check your internet connection or disable ad blockers.');
-    }
-  };
-  poll();
+function _initGSI(){
+  if(_gsiDone)return;
+  if(!window.google?.accounts?.id)return;
+  const cid=localStorage.getItem('ph_google_client_id');
+  if(!cid||cid==='YOUR_GOOGLE_CLIENT_ID')return;
+  try{
+    google.accounts.id.initialize({
+      client_id:cid,
+      callback:handleGoogleCredential,
+      auto_select:false,
+    });
+    // Render official button — works on desktop AND mobile
+    const containers=document.querySelectorAll('.g-signin-container');
+    containers.forEach(c=>{
+      c.innerHTML=''; // clear before re-render
+      google.accounts.id.renderButton(c,{
+        type:'standard',
+        theme:document.documentElement.dataset.theme==='dark'?'filled_black':'outline',
+        size:'large',
+        text:'continue_with',
+        shape:'rectangular',
+        width:Math.min(c.offsetWidth||340,340),
+      });
+    });
+    _gsiDone=true;
+    // Hide the fallback button once official button is rendered
+    const fb=document.getElementById('googleFallbackBtn');
+    if(fb)fb.style.display='none';
+  }catch(e){console.warn('GSI init:',e);}
 }
 
-// Pre-load GSI as soon as page loads
-window.addEventListener('load',()=>_ensureGSI());
+// Try to init when GSI script loads (onload attr) and on page load
+function _rerenderGSIButton(){
+  if(!window.google?.accounts?.id||!_gsiDone)return;
+  const containers=document.querySelectorAll('.g-signin-container');
+  containers.forEach(c=>{
+    c.innerHTML='';
+    google.accounts.id.renderButton(c,{
+      type:'standard',
+      theme:document.documentElement.dataset.theme==='dark'?'filled_black':'outline',
+      size:'large', text:'continue_with', shape:'rectangular',
+      width:Math.min(c.offsetWidth||340,340),
+    });
+  });
+}
+
+function onGSILoad(){_initGSI();}
+window.addEventListener('load',()=>{
+  // Poll briefly in case GSI loaded before our script ran
+  let t=0;const poll=()=>{if(window.google?.accounts?.id){_initGSI();}else if(t++<8)setTimeout(poll,400);};
+  poll();
+});
 
 function signInWithGoogle(){
   const cid=localStorage.getItem('ph_google_client_id');
   if(!cid||cid==='YOUR_GOOGLE_CLIENT_ID'){showGoogleSetup();return;}
-  _ensureGSI(()=>{
-    const isMobile=/iPhone|iPad|iPod|Android|Mobile/i.test(navigator.userAgent)||window.innerWidth<768;
-    if(isMobile){
-      // On mobile: click the official rendered Google button — most reliable on all mobile browsers
-      const renderedBtn=document.querySelector('#g_id_signin div[role="button"],#g_id_signin iframe');
-      if(renderedBtn){renderedBtn.click();return;}
-      // Fallback: re-render and click
-      const c=document.getElementById('g_id_signin');
-      if(c&&window.google?.accounts?.id){
-        google.accounts.id.renderButton(c,{type:'standard',theme:'outline',size:'large',text:'continue_with',shape:'rectangular',width:Math.min(window.innerWidth-40,340)});
-        setTimeout(()=>{const b=c.querySelector('div[role="button"],iframe');if(b)b.click();},300);
+  if(!window.google?.accounts?.id){
+    _initGSI();
+    toast('⚠','Google loading… please try again in 2 seconds.');
+    return;
+  }
+  if(!_gsiDone) _initGSI();
+  // Try One Tap prompt (works on desktop + Chrome Android)
+  try{
+    google.accounts.id.prompt(n=>{
+      if(n.isNotDisplayed()||n.isSkippedMoment()){
+        // Prompt blocked (Safari iOS, Firefox) — click rendered button
+        const btn=document.querySelector('.g-signin-container [role="button"],.g-signin-container iframe');
+        if(btn) btn.click();
+        else toast('⚠','Please allow pop-ups for this site, then try again.');
       }
-      return;
-    }
-    // Desktop: try One Tap first, then rendered button
-    try{
-      google.accounts.id.prompt((n)=>{
-        if(n.isNotDisplayed()||n.isSkippedMoment()){
-          const b=document.querySelector('#g_id_signin div[role="button"]');
-          if(b)b.click();
-          else toast('⚠','Google popup blocked. Allow pop-ups for this site, then try again.');
-        }
-      });
-    }catch(e){
-      const b=document.querySelector('#g_id_signin div[role="button"]');
-      if(b)b.click();
-      else toast('⚠','Google Sign-In error. Please refresh and try again.');
-    }
-  });
+    });
+  }catch(e){
+    const btn=document.querySelector('.g-signin-container [role="button"],.g-signin-container iframe');
+    if(btn) btn.click();
+    else toast('⚠','Google error — please refresh and try again.');
+  }
 }
 
-// Also called via onGSILoad (kept for compatibility)
-function onGSILoad(){_ensureGSI();}
 function handleGoogleCredential(response){
   const payload=parseJWT(response.credential);
   if(!payload){toast('⚠','Google sign-in failed. Please try again.');return;}
@@ -1757,6 +1762,11 @@ function openAuth(mode='signup'){
   authMode=mode;switchAuth(mode);clearAE();
   document.getElementById('authOv').classList.add('open');
   setTimeout(()=>document.getElementById('aUser').focus(),80);
+  // Re-render Google button now that container is visible and has correct width
+  setTimeout(()=>{
+    if(!_gsiDone) _initGSI();       // first time: init + render
+    else _rerenderGSIButton();      // already init: just re-render at new size
+  },150);
 }
 function closeAuth(){document.getElementById('authOv').classList.remove('open');}
 function clearAE(){document.getElementById('aErr').style.display='none';document.getElementById('aSucc').style.display='none';}
