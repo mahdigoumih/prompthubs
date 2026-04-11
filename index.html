@@ -13,6 +13,7 @@
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
 <script src="https://accounts.google.com/gsi/client" async onload="onGSILoad()"></script>
+<script async defer crossorigin="anonymous" src="https://connect.facebook.net/en_US/sdk.js" onload="onFBLoad()"></script>
 <style>
 :root{--a:#4f46e5;--ah:#3d35c2;--a2:#7c6fff;--am:rgba(79,70,229,.1);--ag:rgba(79,70,229,.05);--ab:rgba(79,70,229,.25);--gold:#f59e0b;--gold2:#fbbf24;--golm:rgba(245,158,11,.1);--golb:rgba(245,158,11,.3);--green:#10b981;--red:#ef4444;--r:16px;--rs:10px;--fn:'Plus Jakarta Sans',system-ui,sans-serif;}
 [data-theme="light"]{--bg:#f4f4f8;--surface:#fff;--card:#fff;--sub:#f0f0f6;--border:#e2e4f0;--border2:#c8cbdf;--text:#0a0b18;--text2:#42446b;--text3:#8487ab;--inp:#fff;--nav:#ffffffee;--sh:0 1px 3px rgba(0,0,0,.04),0 4px 16px rgba(0,0,0,.04);--sha:0 4px 24px rgba(79,70,229,.22);--chov:0 8px 32px rgba(79,70,229,.12);}
@@ -718,6 +719,7 @@ footer{border-top:1px solid var(--border);padding:18px 20px;display:flex;align-i
       <div class="g-signin-container" id="g_id_signin">
         <button class="soc-btn" onclick="signInWithGoogle()" id="googleFallbackBtn" style="width:100%;"><svg width="18" height="18" viewBox="0 0 48 48"><path fill="#EA4335" d="M24 9.5c3.54 0 6.71 1.22 9.21 3.6l6.85-6.85C35.9 2.38 30.47 0 24 0 14.62 0 6.51 5.38 2.56 13.22l7.98 6.19C12.43 13.72 17.74 9.5 24 9.5z"/><path fill="#4285F4" d="M46.98 24.55c0-1.57-.15-3.09-.38-4.55H24v9.02h12.94c-.58 2.96-2.26 5.48-4.78 7.18l7.73 6c4.51-4.18 7.09-10.36 7.09-17.65z"/><path fill="#FBBC05" d="M10.53 28.59c-.48-1.45-.76-2.99-.76-4.59s.27-3.14.76-4.59l-7.98-6.19C.92 16.46 0 20.12 0 24c0 3.88.92 7.54 2.56 10.78l7.97-6.19z"/><path fill="#34A853" d="M24 48c6.48 0 11.93-2.13 15.89-5.81l-7.73-6c-2.15 1.45-4.92 2.3-8.16 2.3-6.26 0-11.57-4.22-13.47-9.91l-7.98 6.19C6.51 42.62 14.62 48 24 48z"/><path fill="none" d="M0 0h48v48H0z"/></svg>Continue with Google</button>
       </div>
+      <button class="soc-btn" onclick="signInWithFacebook()" style="width:100%;background:#1877f2;color:#fff;border-color:#1877f2;"><svg width="18" height="18" viewBox="0 0 24 24" fill="white"><path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z"/></svg>Continue with Facebook</button>
       <button class="soc-btn" onclick="signInWithGitHub()" style="width:100%;"><svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M12 0C5.374 0 0 5.373 0 12c0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23A11.509 11.509 0 0112 5.803c1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576C20.566 21.797 24 17.3 24 12c0-6.627-5.373-12-12-12z"/></svg>Continue with GitHub</button>
       <div class="adiv">or with email</div>
       <div class="af"><label>Username</label><input type="text" id="aUser" placeholder="yourusername" maxlength="24" autocomplete="username" oninput="clearAErr()"></div>
@@ -1173,6 +1175,12 @@ function showTab(tab){
         <div class="fg"><label>Google OAuth Client ID</label><input type="text" id="sGCID" class="finp" value="${esc(localStorage.getItem('ph_google_client_id')||'')}"><div class="fhint">Get free at <a href="https://console.cloud.google.com" target="_blank" style="color:var(--a)">console.cloud.google.com</a></div></div>
         <button onclick="saveCIDSett()" class="btn bp" style="font-size:.8rem;padding:9px 18px;">Save & Reload</button>
       </div>
+      <div class="settings-sec"><div class="ss-title">👍 Facebook Login</div>
+        <div class="fg"><label>Facebook App ID</label><input type="text" id="sFBID" class="finp" value="${esc(localStorage.getItem('ph_fb_app_id')||'')}"><div class="fhint">Get free at <a href="https://developers.facebook.com/apps" target="_blank" style="color:#1877f2">developers.facebook.com/apps</a></div></div>
+        <button onclick="saveFBSett()" class="btn bp" style="font-size:.8rem;padding:9px 18px;background:#1877f2;">Save & Reload</button>
+      </div>
+      <div class="settings-sec" style="display:none">PLACEHOLDER
+      </div>
       <div class="settings-sec"><div class="ss-title">🚪 Account</div><button onclick="logout()" class="btn bdanger" style="font-size:.8rem;padding:9px 18px;">→ Log out</button></div>
     </div>`;
   }
@@ -1184,6 +1192,7 @@ function saveSett(){
   renderDashboard();renderNavAuth();updateMNAvatar();toast('✅','Profile saved!');
 }
 function saveCIDSett(){const cid=document.getElementById('sGCID')?.value.trim();if(cid){localStorage.setItem('ph_google_client_id',cid);toast('✅','Saved. Reloading…');setTimeout(()=>location.reload(),1000);}}
+function saveFBSett(){const v=document.getElementById('sFBID')?.value.trim();if(v){localStorage.setItem('ph_fb_app_id',v);toast('✅','Saved. Reloading…');setTimeout(()=>location.reload(),1000);}}
 
 /* ═══ PROFILE ═══ */
 function openProfile(username){if(!username||username==='Anonymous')return;nav('profile',username);try{history.pushState(null,'',`#u=${username}`);}catch{}}
@@ -1359,6 +1368,83 @@ document.addEventListener('keydown',e=>{
   if(e.key==='/'&&curPage==='library'){e.preventDefault();document.getElementById('searchInput').focus();}
   if((e.key==='r'||e.key==='R')&&!e.ctrlKey&&!e.metaKey)surpriseMe();
 });
+
+
+/* ═══════════════════════════════════════════
+   FACEBOOK SIGN-IN
+═══════════════════════════════════════════ */
+let fbReady=false;
+function onFBLoad(){
+  const appId=localStorage.getItem('ph_fb_app_id');
+  if(!appId||appId==='YOUR_FB_APP_ID')return;
+  FB.init({appId,cookie:true,xfbml:false,version:'v19.0'});
+  fbReady=true;
+}
+function signInWithFacebook(){
+  const appId=localStorage.getItem('ph_fb_app_id');
+  if(!appId||appId==='YOUR_FB_APP_ID'){showFBSetup();return;}
+  if(!fbReady){
+    // Try to init now
+    if(window.FB){FB.init({appId,cookie:true,xfbml:false,version:'v19.0'});fbReady=true;}
+    else{toast('⚠','Facebook loading, try again in 2 seconds.');return;}
+  }
+  FB.login(response=>{
+    if(response.authResponse){
+      FB.api('/me',{fields:'id,name,email,picture.type(large)'},user=>{
+        handleFBUser(user,response.authResponse);
+      });
+    }else{
+      toast('⚠','Facebook sign-in cancelled.');
+    }
+  },{scope:'public_profile,email'});
+}
+function handleFBUser(fbUser,auth){
+  if(!fbUser?.id){toast('⚠','Facebook sign-in failed.');return;}
+  const base=(fbUser.name||'user').replace(/[^a-z0-9_]/gi,'_').toLowerCase().slice(0,24);
+  let users=LS.get(K.users)||{};
+  let user=Object.values(users).find(u=>u.facebookId===fbUser.id);
+  const pic=fbUser.picture?.data?.url||null;
+  if(!user){
+    const un=users[base]?base+'_'+uid().slice(-4):base;
+    user={username:un,email:fbUser.email||'',picture:pic,name:fbUser.name,facebookId:fbUser.id,joined:Date.now(),provider:'facebook'};
+    users[user.username]=user;LS.set(K.users,users);
+    toast('🎉',`Welcome, ${fbUser.name.split(' ')[0]}!`,'',null,5000);launchConfetti();
+  }else{
+    if(pic)user.picture=pic;users[user.username]=user;LS.set(K.users,users);
+    toast('👋',`Welcome back, ${user.name||user.username}!`);
+  }
+  currentUser={...user};LS.set(K.session,currentUser);
+  closeAuth();renderNavAuth();renderGrid();updateMNAvatar();
+}
+function showFBSetup(){
+  const el=document.createElement('div');
+  el.style.cssText='position:fixed;inset:0;background:rgba(0,0,0,.65);backdrop-filter:blur(7px);z-index:700;display:flex;align-items:center;justify-content:center;padding:20px;';
+  el.innerHTML=`<div style="background:var(--surface);border:1.5px solid var(--border);border-radius:20px;max-width:520px;width:100%;padding:28px;">
+    <div style="font-size:1.05rem;font-weight:900;margin-bottom:6px;">👍 Set up Facebook Login</div>
+    <div style="font-size:.8rem;color:var(--text2);line-height:1.7;margin-bottom:14px;">Get a free Facebook App ID to enable Facebook login:</div>
+    <ol style="font-size:.79rem;color:var(--text2);line-height:2.1;padding-left:18px;margin-bottom:14px;">
+      <li>Go to <a href="https://developers.facebook.com/apps" target="_blank" style="color:#1877f2">developers.facebook.com/apps</a></li>
+      <li>Click <strong>Create App</strong> → choose <strong>Consumer</strong></li>
+      <li>Add product: <strong>Facebook Login</strong></li>
+      <li>Settings → Basic → copy your <strong>App ID</strong></li>
+      <li>Facebook Login → Settings → add to Valid OAuth Redirect URIs:<br><code style="background:var(--sub);padding:2px 6px;border-radius:4px;font-size:.75rem;">${window.location.origin}</code></li>
+      <li>App Mode: set to <strong>Live</strong> (not Development)</li>
+    </ol>
+    <div style="display:flex;gap:8px;margin-bottom:10px;">
+      <input type="text" id="fbAppI" placeholder="Paste your App ID…" style="flex:1;background:var(--inp);border:1.5px solid var(--border);color:var(--text);border-radius:var(--rs);padding:9px 12px;font-size:.8rem;font-family:var(--fn);outline:none;">
+      <button onclick="saveFBAppId()" style="background:#1877f2;color:#fff;border:none;border-radius:var(--rs);padding:9px 16px;font-size:.8rem;font-weight:700;cursor:pointer;font-family:var(--fn);">Save</button>
+    </div>
+    <button onclick="this.closest('[style*=fixed]').remove()" style="width:100%;background:var(--sub);border:1.5px solid var(--border);color:var(--text2);border-radius:var(--rs);padding:9px;font-size:.8rem;font-weight:600;cursor:pointer;font-family:var(--fn);">Cancel</button>
+  </div>`;
+  document.body.appendChild(el);
+}
+function saveFBAppId(){
+  const v=document.getElementById('fbAppI')?.value.trim();
+  if(!v)return;
+  localStorage.setItem('ph_fb_app_id',v);
+  toast('✅','Facebook App ID saved. Reloading…');
+  setTimeout(()=>location.reload(),1000);
+}
 
 init();
 </script>
