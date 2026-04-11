@@ -429,8 +429,218 @@ footer{border-top:1px solid var(--border);padding:16px 22px;display:flex;align-i
 .fr a:hover{color:var(--a);}
 /* Google sign-in setup banner */
 .google-setup-banner{background:rgba(66,133,244,.07);border:1.5px solid rgba(66,133,244,.2);border-radius:var(--rs);padding:10px 14px;font-size:.74rem;color:#1a56db;display:flex;align-items:center;gap:8px;margin-bottom:4px;}
-@media(max-width:1100px){.pw{grid-template-columns:1fr;}.sc{display:none;}}
-@media(max-width:700px){nav{padding:0 12px;gap:6px;}.lname{display:none;}.mc{padding:12px;}.hero h1{font-size:1.85rem;}.hero{padding:38px 14px 30px;}.fbar,.ticker{padding:8px 12px;}.grid{grid-template-columns:1fr;}.sp{width:100%;right:-100%;}.dash-stats{gap:10px;}.prof-header{flex-wrap:wrap;}}
+/* ══════════════════════════════════
+   RESPONSIVE — TABLET
+══════════════════════════════════ */
+@media(max-width:1100px){
+  .pw{grid-template-columns:1fr;}
+  .sc{display:none;}
+}
+
+/* ══════════════════════════════════
+   RESPONSIVE — MOBILE (≤768px)
+══════════════════════════════════ */
+@media(max-width:768px){
+
+  /* ── NAV ── */
+  nav{padding:0 12px;gap:6px;height:54px;}
+  .lname{display:none;}
+  .search-w{max-width:none;flex:1;}
+  .search-w input{font-size:.82rem;}
+  .search-kbd{display:none;}
+  #detNavBtn{display:none !important;} /* moved to bottom nav */
+  .ibtn{width:30px;height:30px;font-size:.78rem;}
+  .btn{padding:6px 10px;font-size:.72rem;}
+  .lmark{width:30px;height:30px;font-size:14px;}
+
+  /* ── HERO ── */
+  .hero{padding:32px 16px 26px;}
+  .hero h1{font-size:1.75rem;letter-spacing:-1px;}
+  .hero p{font-size:.84rem;}
+  .hero-ctas{gap:8px;}
+  .hero-ctas .btn-p{padding:11px 20px;font-size:.84rem;}
+  .hero-stats{max-width:100%;}
+  .hstat{padding:10px 6px;}
+  .hstat strong{font-size:1.25rem;}
+  .hstat span{font-size:.58rem;}
+
+  /* ── BANNER ── */
+  .sbn{padding:10px 14px;flex-direction:column;gap:10px;align-items:flex-start;}
+  .sbn-r{width:100%;justify-content:space-between;}
+
+  /* ── TICKER ── */
+  .ticker{padding:8px 14px;gap:8px;}
+  .ticker-lbl{font-size:.58rem;letter-spacing:1px;}
+
+  /* ── FILTERS ── */
+  .fbar{padding:8px 12px;top:54px;gap:5px;}
+  .cpill{padding:5px 10px;font-size:.68rem;}
+  .surprise-btn{font-size:.68rem;padding:5px 10px;}
+  .sortsel{font-size:.68rem;padding:4px 8px;}
+
+  /* ── MAIN CONTENT ── */
+  .mc{padding:12px 12px 80px;} /* bottom padding for mobile nav */
+  .grid{grid-template-columns:1fr;gap:10px;}
+
+  /* ── CARDS ── */
+  .pcard{padding:14px;}
+  .card-title{font-size:.84rem;}
+  .card-prev{display:none;} /* hide prompt preview on mobile to save space */
+
+  /* ── SUBMIT PANEL — bottom sheet on mobile ── */
+  .sp{
+    width:100%;
+    height:92vh;
+    right:auto;
+    bottom:-100vh;
+    top:auto;
+    left:0;
+    border-left:none;
+    border-top:1.5px solid var(--border);
+    border-radius:20px 20px 0 0;
+    transition:bottom .35s cubic-bezier(.4,0,.2,1);
+    box-shadow:0 -8px 48px rgba(0,0,0,.15);
+  }
+  .sp.open{bottom:0;right:auto;}
+  .sp-head{border-radius:20px 20px 0 0;padding:12px 16px;}
+  .sp-head::before{
+    content:'';display:block;width:40px;height:4px;
+    background:var(--border2);border-radius:4px;
+    margin:0 auto 10px;
+  }
+  .sp-body{padding:14px 16px 32px;}
+
+  /* ── PROMPT MODAL — full screen on mobile ── */
+  .overlay{padding:0;align-items:flex-end;}
+  .modal{
+    border-radius:20px 20px 0 0;
+    max-height:94vh;
+    margin-bottom:0;
+    border-bottom:none;
+  }
+  .mhead{padding:14px 16px 0;}
+  .mtitle{font-size:.95rem;}
+  .mbody{padding:14px 16px 32px;gap:12px;}
+  .pbox{font-size:.72rem;max-height:200px;}
+  .macts{grid-template-columns:1fr 1fr;gap:6px;}
+  .mac{padding:9px;font-size:.72rem;}
+  .mac.prim{grid-column:1/-1;}
+
+  /* ── AUTH MODAL — full screen on mobile ── */
+  .aov{padding:0;align-items:flex-end;}
+  .abox{
+    border-radius:20px 20px 0 0;
+    max-width:100%;
+    border-bottom:none;
+  }
+  .abox::before{
+    content:'';display:block;width:40px;height:4px;
+    background:var(--border2);border-radius:4px;
+    margin:12px auto 0;
+  }
+  .ahead{padding:16px 20px 0;}
+  .aicon{width:42px;height:42px;font-size:18px;margin-bottom:10px;}
+  .atitle{font-size:1.05rem;}
+  .atabs{margin:14px 20px 0;}
+  .abody{padding:16px 20px 32px;gap:10px;}
+  .social-btn{padding:9px;font-size:.78rem;}
+  /* Show Google rendered button directly on mobile */
+  #g_id_signin{display:block !important;min-height:44px;}
+  #googleBtn{display:none !important;} /* Hide our custom btn, show official one */
+
+  /* ── SHARE MODAL ── */
+  .share-modal{border-radius:20px 20px 0 0;max-width:100%;border-bottom:none;}
+  .share-head{padding:16px 18px 12px;}
+  .share-body{padding:14px 18px 32px;}
+  .sbtn{padding:10px 14px;font-size:.78rem;}
+
+  /* ── DASHBOARD ── */
+  .dash{padding:16px 12px 80px;}
+  .dash-header{padding:18px 16px;flex-wrap:wrap;gap:12px;}
+  .dash-av-big{width:48px;height:48px;font-size:1.1rem;}
+  .dash-name{font-size:1rem;}
+  .dash-stats{gap:10px;flex-wrap:wrap;}
+  .ds strong{font-size:1.1rem;}
+  .ds span{font-size:.58rem;}
+  .dash-grid{grid-template-columns:1fr;}
+  .dash-tabs{gap:2px;}
+  .dtab{font-size:.72rem;padding:7px 4px;}
+
+  /* ── PUBLIC PROFILE ── */
+  .profile{padding:16px 12px 80px;}
+  .prof-header{flex-direction:column;gap:14px;padding:18px 16px;}
+  .prof-av{width:64px;height:64px;font-size:1.4rem;}
+  .prof-name{font-size:1.2rem;}
+  .prof-stats{gap:14px;}
+  .prof-grid{grid-template-columns:1fr;}
+  .prof-actions{width:100%;}
+  .prof-actions .btn-p,.prof-actions .btn-s{width:100%;justify-content:center;}
+
+  /* ── DETECTOR ── */
+  .det{padding:16px 12px 80px;}
+  .det-ta{min-height:140px;font-size:.84rem;}
+  .vc{flex-direction:column;gap:14px;padding:16px;}
+  .gw{width:80px;height:80px;}
+  .sig-lbl{min-width:120px;font-size:.68rem;}
+
+  /* ── TOASTS ── */
+  #toasts{bottom:76px;right:12px;left:12px;}
+  .toast{max-width:100%;}
+
+  /* ── LEADERBOARD SIDEBAR (hidden on mobile) ── */
+  .sc{display:none;}
+}
+
+/* ══════════════════════════════════
+   MOBILE BOTTOM NAVIGATION BAR
+   (replaces the hidden nav buttons)
+══════════════════════════════════ */
+@media(max-width:768px){
+  .mobile-nav{
+    position:fixed;bottom:0;left:0;right:0;
+    background:var(--nav);backdrop-filter:blur(20px);
+    border-top:1px solid var(--border);
+    height:62px;
+    display:flex;align-items:center;justify-content:space-around;
+    z-index:200;
+    padding-bottom:env(safe-area-inset-bottom);
+  }
+  .mnav-btn{
+    display:flex;flex-direction:column;align-items:center;gap:3px;
+    padding:6px 12px;border:none;background:none;cursor:pointer;
+    font-family:inherit;color:var(--text3);transition:color .15s;
+    font-size:.6rem;font-weight:700;text-transform:uppercase;letter-spacing:.5px;
+  }
+  .mnav-btn.on{color:var(--a);}
+  .mnav-btn:hover{color:var(--a);}
+  .mnav-ico{font-size:1.2rem;line-height:1;}
+}
+@media(min-width:769px){
+  .mobile-nav{display:none;}
+}
+
+/* ══════════════════════════════════
+   SAFE AREA (iPhone notch/home bar)
+══════════════════════════════════ */
+@supports(padding-bottom:env(safe-area-inset-bottom)){
+  @media(max-width:768px){
+    .mobile-nav{padding-bottom:calc(env(safe-area-inset-bottom) + 4px);}
+    .sp.open{bottom:0;}
+    .aov.open .abox,.overlay.open .modal{margin-bottom:env(safe-area-inset-bottom);}
+  }
+}
+
+/* ══════════════════════════════════
+   SMALL PHONES (≤390px)
+══════════════════════════════════ */
+@media(max-width:390px){
+  .hero h1{font-size:1.5rem;}
+  .hero p{font-size:.78rem;}
+  .macts{grid-template-columns:1fr;}
+  .mac.prim{grid-column:1;}
+  nav{gap:4px;}
+  .search-w input{font-size:.76rem;padding:7px 8px 7px 30px;}
+}
 </style>
 </head>
 <body>
@@ -658,6 +868,27 @@ footer{border-top:1px solid var(--border);padding:16px 22px;display:flex;align-i
   </div>
 </div>
 
+<!-- ══ MOBILE BOTTOM NAV ══ -->
+<nav class="mobile-nav" id="mobileNav">
+  <button class="mnav-btn on" id="mnav-home" onclick="navigate('library');updateMobileNav('home')">
+    <span class="mnav-ico">🏠</span>Home
+  </button>
+  <button class="mnav-btn" id="mnav-search" onclick="document.getElementById('searchInput').focus();updateMobileNav('search')">
+    <span class="mnav-ico">🔍</span>Search
+  </button>
+  <button class="mnav-btn" id="mnav-submit" onclick="guardedSubmit()">
+    <span class="mnav-ico" style="width:36px;height:36px;background:var(--a);border-radius:50%;display:flex;align-items:center;justify-content:center;color:#fff;font-size:1.1rem;margin-bottom:2px;">+</span>
+    <span style="margin-top:-2px;">Submit</span>
+  </button>
+  <button class="mnav-btn" id="mnav-detector" onclick="navigate('detector');updateMobileNav('detector')">
+    <span class="mnav-ico">🤖</span>Detect AI
+  </button>
+  <button class="mnav-btn" id="mnav-account" onclick="handleMobileAccount()">
+    <span class="mnav-ico" id="mnavAvIco">👤</span>
+    <span id="mnavAccLabel">Account</span>
+  </button>
+</nav>
+
 <div id="toasts"></div>
 
 <script>
@@ -803,18 +1034,32 @@ function signInWithGoogle(){
   const cid=localStorage.getItem('ph_google_client_id');
   if(!cid||cid==='YOUR_GOOGLE_CLIENT_ID'){showGoogleSetup();return;}
   _ensureGSI(()=>{
-    // First try: click the official rendered Google button (most reliable)
-    const renderedBtn=document.querySelector('#g_id_signin div[role="button"]');
-    if(renderedBtn){renderedBtn.click();return;}
-    // Second try: One Tap prompt
+    const isMobile=/iPhone|iPad|iPod|Android|Mobile/i.test(navigator.userAgent)||window.innerWidth<768;
+    if(isMobile){
+      // On mobile: click the official rendered Google button — most reliable on all mobile browsers
+      const renderedBtn=document.querySelector('#g_id_signin div[role="button"],#g_id_signin iframe');
+      if(renderedBtn){renderedBtn.click();return;}
+      // Fallback: re-render and click
+      const c=document.getElementById('g_id_signin');
+      if(c&&window.google?.accounts?.id){
+        google.accounts.id.renderButton(c,{type:'standard',theme:'outline',size:'large',text:'continue_with',shape:'rectangular',width:Math.min(window.innerWidth-40,340)});
+        setTimeout(()=>{const b=c.querySelector('div[role="button"],iframe');if(b)b.click();},300);
+      }
+      return;
+    }
+    // Desktop: try One Tap first, then rendered button
     try{
       google.accounts.id.prompt((n)=>{
         if(n.isNotDisplayed()||n.isSkippedMoment()){
-          toast('⚠','Google blocked the popup. In your browser, allow pop-ups for this site, then try again.');
+          const b=document.querySelector('#g_id_signin div[role="button"]');
+          if(b)b.click();
+          else toast('⚠','Google popup blocked. Allow pop-ups for this site, then try again.');
         }
       });
     }catch(e){
-      toast('⚠','Google Sign-In error. Please try refreshing the page.');
+      const b=document.querySelector('#g_id_signin div[role="button"]');
+      if(b)b.click();
+      else toast('⚠','Google Sign-In error. Please refresh and try again.');
     }
   });
 }
@@ -988,6 +1233,9 @@ const PAGES=['libraryPage','dashPage','profilePage','detectorPage'];
 function navigate(page,extra){
   viewMode=page;
   PAGES.forEach(id=>document.getElementById(id).style.display='none');
+  // Sync mobile bottom nav
+  const mnavMap={library:'home',detector:'detector',dashboard:'account',profile:'account'};
+  updateMobileNav(mnavMap[page]||'home');
   document.getElementById('searchWrap').style.display=page==='library'?'':'none';
   document.getElementById('detNavBtn').classList.toggle('on',page==='detector');
   if(page==='library'){
@@ -1531,7 +1779,7 @@ function doAuth(){
 }
 function logout(){
   currentUser=null;LS.del(K.session);closeAvMenu();navigate('library');
-  renderNavAuth();renderGrid();
+  renderNavAuth();renderGrid();updateMobileNavAvatar();
   toast('👋','Logged out. See you soon!');
 }
 
@@ -1707,6 +1955,41 @@ document.addEventListener('keydown',e=>{
   if((e.key==='r'||e.key==='R')&&!e.ctrlKey&&!e.metaKey)surpriseMe();
   if((e.key==='d'||e.key==='D')&&!e.ctrlKey&&!e.metaKey)navigate('detector');
 });
+
+/* ═══════════════════════════════════════════
+   MOBILE NAV HELPERS
+═══════════════════════════════════════════ */
+function updateMobileNav(active){
+  ['home','search','detector','account'].forEach(id=>{
+    const el=document.getElementById('mnav-'+id);
+    if(el)el.classList.toggle('on',id===active);
+  });
+}
+function handleMobileAccount(){
+  if(currentUser){
+    // Toggle avatar menu on desktop, go to dashboard on mobile
+    if(window.innerWidth<768){navigate('dashboard');updateMobileNav('account');}
+    else toggleAvMenu();
+  }else{
+    openAuth('signup');
+  }
+}
+function updateMobileNavAvatar(){
+  const ico=document.getElementById('mnavAvIco');
+  const lbl=document.getElementById('mnavAccLabel');
+  if(!ico)return;
+  if(currentUser){
+    if(currentUser.picture){
+      ico.innerHTML=`<img src="${esc(currentUser.picture)}" style="width:26px;height:26px;border-radius:50%;object-fit:cover;">`;
+    }else{
+      ico.textContent='👤';
+    }
+    if(lbl)lbl.textContent=(currentUser.username||'Me').slice(0,6);
+  }else{
+    ico.textContent='👤';
+    if(lbl)lbl.textContent='Account';
+  }
+}
 
 /* ═══════════════════════════════════════════
    START
