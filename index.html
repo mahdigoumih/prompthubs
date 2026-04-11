@@ -63,7 +63,7 @@
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
 
 <!-- ── GOOGLE IDENTITY SERVICES ── -->
-<script src="https://accounts.google.com/gsi/client" async defer onload="onGSILoad()"></script>
+<script src="https://accounts.google.com/gsi/client" async></script>
 <meta name="google-signin-client_id" content="">
 <style>
 /* ── TOKENS ── */
@@ -756,45 +756,71 @@ function callAI(system,text){
 }
 
 /* ═══════════════════════════════════════════
-   GOOGLE SIGN-IN — robust, with popup fallback
+   GOOGLE SIGN-IN — polling-based, no timing issues
 ═══════════════════════════════════════════ */
-let gsiReady=false;
+let _gsiInitialized=false;
 
-// Called by onload attribute on GSI script tag
-function onGSILoad(){
-  gsiReady=true;
-  const cid=localStorage.getItem('ph_google_client_id');
-  if(!cid||cid==='YOUR_GOOGLE_CLIENT_ID')return;
-  try{
-    google.accounts.id.initialize({
-      client_id:cid,
-      callback:handleGoogleCredential,
-      auto_select:false,
-      cancel_on_tap_outside:true,
-      ux_mode:'popup',
-    });
-    // Render official Google button into our hidden container
-    const c=document.getElementById('g_id_signin');
-    if(c) google.accounts.id.renderButton(c,{type:'standard',theme:'outline',size:'large',text:'continue_with',shape:'rectangular',width:340});
-  }catch(e){console.warn('GSI init:',e);}
+function _ensureGSI(callback){
+  // Poll up to 6s for the GSI library to be available
+  let tries=0;
+  const poll=()=>{
+    if(window.google?.accounts?.id){
+      if(!_gsiInitialized){
+        const cid=localStorage.getItem('ph_google_client_id');
+        if(cid&&cid!=='YOUR_GOOGLE_CLIENT_ID'){
+          try{
+            google.accounts.id.initialize({
+              client_id:cid,
+              callback:handleGoogleCredential,
+              auto_select:false,
+              ux_mode:'popup',
+            });
+            const c=document.getElementById('g_id_signin');
+            if(c){
+              google.accounts.id.renderButton(c,{
+                type:'standard',theme:'outline',size:'large',
+                text:'continue_with',shape:'rectangular',width:340
+              });
+            }
+            _gsiInitialized=true;
+          }catch(e){console.warn('GSI init error:',e);}
+        }
+      }
+      if(callback)callback();
+    }else if(tries++<12){
+      setTimeout(poll,500);
+    }else{
+      toast('⚠','Google Sign-In could not load. Check your internet connection or disable ad blockers.');
+    }
+  };
+  poll();
 }
+
+// Pre-load GSI as soon as page loads
+window.addEventListener('load',()=>_ensureGSI());
 
 function signInWithGoogle(){
   const cid=localStorage.getItem('ph_google_client_id');
   if(!cid||cid==='YOUR_GOOGLE_CLIENT_ID'){showGoogleSetup();return;}
-  if(!gsiReady||!window.google?.accounts?.id){
-    toast('⚠','Google Sign-In is still loading, try again in 2 seconds.');return;
-  }
-  // Try to click the rendered Google button (most reliable)
-  const renderedBtn=document.querySelector('#g_id_signin div[role="button"]');
-  if(renderedBtn){renderedBtn.click();return;}
-  // Fallback: One Tap prompt
-  google.accounts.id.prompt((n)=>{
-    if(n.isNotDisplayed()||n.isSkippedMoment()){
-      toast('⚠','Google popup blocked. Allow pop-ups for this site in your browser settings, then try again.');
+  _ensureGSI(()=>{
+    // First try: click the official rendered Google button (most reliable)
+    const renderedBtn=document.querySelector('#g_id_signin div[role="button"]');
+    if(renderedBtn){renderedBtn.click();return;}
+    // Second try: One Tap prompt
+    try{
+      google.accounts.id.prompt((n)=>{
+        if(n.isNotDisplayed()||n.isSkippedMoment()){
+          toast('⚠','Google blocked the popup. In your browser, allow pop-ups for this site, then try again.');
+        }
+      });
+    }catch(e){
+      toast('⚠','Google Sign-In error. Please try refreshing the page.');
     }
   });
 }
+
+// Also called via onGSILoad (kept for compatibility)
+function onGSILoad(){_ensureGSI();}
 function handleGoogleCredential(response){
   const payload=parseJWT(response.credential);
   if(!payload){toast('⚠','Google sign-in failed. Please try again.');return;}
