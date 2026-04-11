@@ -1,13 +1,70 @@
 <!DOCTYPE html>
-<html lang="en" data-theme="light">
+<html lang="en" data-theme="light" prefix="og: https://ogp.me/ns#">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width,initial-scale=1.0">
-<title>PromptHub — The World's Best AI Prompt Library</title>
-<meta name="description" content="Discover 40+ battle-tested AI prompts for ChatGPT, Claude, Midjourney and more. Free forever.">
+
+<!-- ── PRIMARY SEO ── -->
+<title>PromptHub — The World's Best Free AI Prompt Library</title>
+<meta name="description" content="Discover 40+ battle-tested AI prompts for ChatGPT, Claude, Gemini & Midjourney. Free forever. One click to copy. Submit your own prompts and get upvotes from the community.">
+<meta name="keywords" content="AI prompts, ChatGPT prompts, Claude prompts, Midjourney prompts, prompt library, free AI prompts, prompt engineering, AI tools, GPT prompts, best prompts">
+<meta name="author" content="PromptHub">
+<meta name="robots" content="index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1">
+<link rel="canonical" href="https://prompthubs.vercel.app/">
+
+<!-- ── OPEN GRAPH (Facebook, LinkedIn, WhatsApp) ── -->
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="PromptHub">
+<meta property="og:title" content="PromptHub — The World's Best Free AI Prompt Library">
+<meta property="og:description" content="40+ battle-tested prompts for ChatGPT, Claude & Gemini. Copy in one click. Free forever. Join the community.">
+<meta property="og:url" content="https://prompthubs.vercel.app/">
+<meta property="og:image" content="https://prompthubs.vercel.app/og-image.png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:locale" content="en_US">
+
+<!-- ── TWITTER CARD ── -->
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="PromptHub — Free AI Prompt Library">
+<meta name="twitter:description" content="40+ battle-tested prompts for ChatGPT, Claude & Gemini. Free forever.">
+<meta name="twitter:image" content="https://prompthubs.vercel.app/og-image.png">
+<meta name="twitter:creator" content="@prompthub">
+
+<!-- ── JSON-LD STRUCTURED DATA ── -->
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "WebSite",
+  "name": "PromptHub",
+  "description": "The world's best free AI prompt library for ChatGPT, Claude, Gemini and Midjourney",
+  "url": "https://prompthubs.vercel.app/",
+  "potentialAction": {
+    "@type": "SearchAction",
+    "target": {"@type": "EntryPoint", "urlTemplate": "https://prompthubs.vercel.app/?q={search_term_string}"},
+    "query-input": "required name=search_term_string"
+  },
+  "sameAs": [],
+  "publisher": {
+    "@type": "Organization",
+    "name": "PromptHub",
+    "logo": {"@type": "ImageObject", "url": "https://prompthubs.vercel.app/favicon.svg"}
+  }
+}
+</script>
+
+<!-- ── FAVICON (SVG — works in all modern browsers) ── -->
+<link rel="icon" type="image/svg+xml" href="/favicon.svg">
+<link rel="alternate icon" href="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACAAAAAgCAYAAABzenr0AAAACXBIWXMAAAsTAAALEwEAmpwYAAABHElEQVR4nO2WMU7DQBBF3yYSEoekSJESkOgBOAMHQByBM3AGDkBDR0VDR0dFQUFBQUFBSRGJkCiJHYudaGVZ3t3Z3cRIfpKl1c7s/Lc7s2sBwzAMwzAMwzCMP2ECXAIfwA2wBbaBBTAFRsAQ6ANdoAO0gRbQBJpAA6gDNaAKVIAyUAJKQBEoAAWgDOSBHJAFMkAaSAEJIA7EgBgQBSJAGAgBQSAA+IEe4AN8gBfwAC7ABTiBHWAHbAJb4Ac4gBtwBe6AG3AHrIE1sAJWwBJYAAtgDsyBGTAFJsAYGAEDYAj0gC7QAVpAE2gAdaAGVIEKUAZKQBEoAAWgDOSBHJAFMkAaSAEJIA7EgBgQBSJAGAgBQSAA+IEe4AN8gBfwAC7ACTiBHWAHbII/4Ac4gBtwBe6AG3AHrIE1sAJWwBJYAAugeecDDMMwDMMwDMMw/pgv4BPr0pHx96EAAAAASUVORK5CYII=">
+<link rel="apple-touch-icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 180 180'%3E%3Crect width='180' height='180' rx='40' fill='%234f46e5'/%3E%3Cpolygon points='100,20 56,100 84,100 80,160 124,76 96,76' fill='%23ffffff'/%3E%3C/svg%3E">
+
+<!-- ── FONTS ── -->
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
-<!-- Google Identity Services -->
-<script src="https://accounts.google.com/gsi/client" async defer></script>
+
+<!-- ── GOOGLE IDENTITY SERVICES ── -->
+<script src="https://accounts.google.com/gsi/client" async defer onload="onGSILoad()"></script>
+<meta name="google-signin-client_id" content="">
 <style>
 /* ── TOKENS ── */
 [data-theme="light"]{--bg:#f7f8fc;--surface:#fff;--card:#fff;--sub:#f1f2f8;--border:#e4e6f0;--border2:#cdd0e4;--text:#0c0d1c;--text2:#464870;--text3:#8890b5;--inp:#fff;--nav:#fffffff2;--sh:0 1px 3px rgba(0,0,0,.05),0 4px 16px rgba(0,0,0,.04);--sha:0 4px 24px rgba(79,70,229,.24);}
@@ -401,7 +458,7 @@ footer{border-top:1px solid var(--border);padding:16px 22px;display:flex;align-i
 <!-- ═══ LIBRARY PAGE ═══ -->
 <div id="libraryPage">
   <div class="hero" id="heroSection" style="display:none;">
-    <div class="hero-badge"><span class="live-dot"></span> Live · Community Powered</div>
+    <div class="hero-badge"><span class="live-dot"></span> Live · Community Powered · Free Forever</div>
     <h1>The World's Best<br><em>AI Prompt Library</em></h1>
     <p>Battle-tested prompts for ChatGPT, Claude, Gemini, Midjourney & more. One click to copy. Free forever.</p>
     <div class="hero-ctas">
@@ -418,7 +475,7 @@ footer{border-top:1px solid var(--border);padding:16px 22px;display:flex;align-i
   <div class="sbn" id="sbn" style="display:none;">
     <div class="sbn-l">
       <div class="sbn-icon">✦</div>
-      <div class="sbn-text"><strong>Join PromptHub — Free Forever</strong><span>Submit prompts, get upvotes, build your profile.</span></div>
+      <div class="sbn-text"><strong>🚀 Join 500+ prompt engineers on PromptHub</strong><span>Submit prompts · Get upvotes · Build your profile · Free forever</span></div>
     </div>
     <div style="display:flex;align-items:center;gap:9px;">
       <button class="sbn-cta" onclick="openAuth('signup')">Create Free Account →</button>
@@ -546,6 +603,9 @@ footer{border-top:1px solid var(--border);padding:16px 22px;display:flex;align-i
       <div class="aerr" id="aErr"></div>
       <div class="asuccess" id="aSucc"></div>
       <!-- Social sign-in -->
+      <!-- Hidden container for official Google button (rendered by GSI SDK) -->
+      <div id="g_id_signin" style="display:none;"></div>
+      <!-- Our styled button triggers the rendered Google button -->
       <button class="social-btn google-btn" onclick="signInWithGoogle()" id="googleBtn">
         <svg width="18" height="18" viewBox="0 0 48 48"><path fill="#EA4335" d="M24 9.5c3.54 0 6.71 1.22 9.21 3.6l6.85-6.85C35.9 2.38 30.47 0 24 0 14.62 0 6.51 5.38 2.56 13.22l7.98 6.19C12.43 13.72 17.74 9.5 24 9.5z"/><path fill="#4285F4" d="M46.98 24.55c0-1.57-.15-3.09-.38-4.55H24v9.02h12.94c-.58 2.96-2.26 5.48-4.78 7.18l7.73 6c4.51-4.18 7.09-10.36 7.09-17.65z"/><path fill="#FBBC05" d="M10.53 28.59c-.48-1.45-.76-2.99-.76-4.59s.27-3.14.76-4.59l-7.98-6.19C.92 16.46 0 20.12 0 24c0 3.88.92 7.54 2.56 10.78l7.97-6.19z"/><path fill="#34A853" d="M24 48c6.48 0 11.93-2.13 15.89-5.81l-7.73-6c-2.15 1.45-4.92 2.3-8.16 2.3-6.26 0-11.57-4.22-13.47-9.91l-7.98 6.19C6.51 42.62 14.62 48 24 48z"/><path fill="none" d="M0 0h48v48H0z"/></svg>
         Continue with Google
@@ -606,8 +666,6 @@ footer{border-top:1px solid var(--border);padding:16px 22px;display:flex;align-i
    Get it free at: console.cloud.google.com
    APIs & Services → Credentials → OAuth 2.0
 ═══════════════════════════════════════════ */
-const GOOGLE_CLIENT_ID = localStorage.getItem('ph_google_client_id') || 'YOUR_GOOGLE_CLIENT_ID';
-
 /* ═══════════════════════════════════════════
    STATE
 ═══════════════════════════════════════════ */
@@ -698,32 +756,42 @@ function callAI(system,text){
 }
 
 /* ═══════════════════════════════════════════
-   GOOGLE SIGN-IN
+   GOOGLE SIGN-IN — robust, with popup fallback
 ═══════════════════════════════════════════ */
-function initGoogle(){
-  if(GOOGLE_CLIENT_ID==='YOUR_GOOGLE_CLIENT_ID'||!GOOGLE_CLIENT_ID){
-    console.log('Google Sign-In: No Client ID set. See README for setup.');
-    return;
-  }
-  if(window.google?.accounts?.id){
+let gsiReady=false;
+
+// Called by onload attribute on GSI script tag
+function onGSILoad(){
+  gsiReady=true;
+  const cid=localStorage.getItem('ph_google_client_id');
+  if(!cid||cid==='YOUR_GOOGLE_CLIENT_ID')return;
+  try{
     google.accounts.id.initialize({
-      client_id:GOOGLE_CLIENT_ID,
+      client_id:cid,
       callback:handleGoogleCredential,
       auto_select:false,
+      cancel_on_tap_outside:true,
+      ux_mode:'popup',
     });
-  }
+    // Render official Google button into our hidden container
+    const c=document.getElementById('g_id_signin');
+    if(c) google.accounts.id.renderButton(c,{type:'standard',theme:'outline',size:'large',text:'continue_with',shape:'rectangular',width:340});
+  }catch(e){console.warn('GSI init:',e);}
 }
+
 function signInWithGoogle(){
-  if(GOOGLE_CLIENT_ID==='YOUR_GOOGLE_CLIENT_ID'||!GOOGLE_CLIENT_ID){
-    // Show setup instructions
-    showGoogleSetup();
-    return;
+  const cid=localStorage.getItem('ph_google_client_id');
+  if(!cid||cid==='YOUR_GOOGLE_CLIENT_ID'){showGoogleSetup();return;}
+  if(!gsiReady||!window.google?.accounts?.id){
+    toast('⚠','Google Sign-In is still loading, try again in 2 seconds.');return;
   }
-  if(!window.google?.accounts?.id){toast('⚠','Google Sign-In is loading, try again in a second.');return;}
-  google.accounts.id.prompt((notification)=>{
-    if(notification.isSkippedMoment()||notification.isDismissedMoment()){
-      // Fallback: render button popup
-      google.accounts.id.renderButton(document.createElement('div'),{theme:'outline',size:'large',callback:handleGoogleCredential});
+  // Try to click the rendered Google button (most reliable)
+  const renderedBtn=document.querySelector('#g_id_signin div[role="button"]');
+  if(renderedBtn){renderedBtn.click();return;}
+  // Fallback: One Tap prompt
+  google.accounts.id.prompt((n)=>{
+    if(n.isNotDisplayed()||n.isSkippedMoment()){
+      toast('⚠','Google popup blocked. Allow pop-ups for this site in your browser settings, then try again.');
     }
   });
 }
@@ -859,9 +927,7 @@ function init(){
     prompts=[...SEED];
     lsSet(K.db,prompts);
   }
-  // Init Google Sign-In after GSI script loads
-  if(window.google?.accounts?.id){initGoogle();}
-  else{document.addEventListener('google-gsi-loaded',initGoogle);}
+  // Google GSI loads via onload callback on script tag
   // Render
   renderNavAuth();renderStatsAll();renderFilters();renderTicker();renderPOTD();renderGrid();renderSidebar();
   // Hero/banner
@@ -1614,13 +1680,6 @@ document.addEventListener('keydown',e=>{
   if(e.key==='/'&&viewMode==='library'){e.preventDefault();document.getElementById('searchInput').focus();}
   if((e.key==='r'||e.key==='R')&&!e.ctrlKey&&!e.metaKey)surpriseMe();
   if((e.key==='d'||e.key==='D')&&!e.ctrlKey&&!e.metaKey)navigate('detector');
-});
-
-/* ═══════════════════════════════════════════
-   GSI callback trigger
-═══════════════════════════════════════════ */
-window.addEventListener('load',()=>{
-  if(window.google?.accounts?.id)initGoogle();
 });
 
 /* ═══════════════════════════════════════════
