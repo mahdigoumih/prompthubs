@@ -796,7 +796,7 @@ function callAI(system,text){return fetch('/api/generate',{method:'POST',headers
 let _gsiDone=false;
 function _initGSI(){
   if(_gsiDone||!window.google?.accounts?.id)return;
-  const cid=localStorage.getItem('ph_google_client_id');
+  const cid='993598553971-p6ti5bvd4l5br9qajcobbppo2o98bb46.apps.googleusercontent.com';
   if(!cid||cid==='YOUR_GOOGLE_CLIENT_ID')return;
   try{
     google.accounts.id.initialize({client_id:cid,callback:handleGCred,auto_select:false});
@@ -811,7 +811,7 @@ function _initGSI(){
 function onGSILoad(){_initGSI();let t=0;const p=()=>{if(window.google?.accounts?.id)_initGSI();else if(t++<8)setTimeout(p,400);};p();}
 window.addEventListener('load',()=>{if(window.google?.accounts?.id)_initGSI();});
 function signInWithGoogle(){
-  const cid=localStorage.getItem('ph_google_client_id');
+  const cid='993598553971-p6ti5bvd4l5br9qajcobbppo2o98bb46.apps.googleusercontent.com';
   if(!cid||cid==='YOUR_GOOGLE_CLIENT_ID'){showGCIDSetup();return;}
   if(!window.google?.accounts?.id){_initGSI();toast('⚠','Loading Google Sign-In…');return;}
   if(!_gsiDone)_initGSI();
@@ -1174,7 +1174,7 @@ function showTab(tab){
         <button onclick="saveSett()" class="btn bp" style="font-size:.8rem;padding:9px 18px;">Save Profile</button>
       </div>
       <div class="settings-sec"><div class="ss-title">🔑 Google Sign-In</div>
-        <div class="fg"><label>Google OAuth Client ID</label><input type="text" id="sGCID" class="finp" value="${esc(localStorage.getItem('ph_google_client_id')||'')}"><div class="fhint">Get free at <a href="https://console.cloud.google.com" target="_blank" style="color:var(--a)">console.cloud.google.com</a></div></div>
+        <div class="fg"><label>Google OAuth Client ID</label><input type="text" id="sGCID" class="finp" value="${esc('993598553971-p6ti5bvd4l5br9qajcobbppo2o98bb46.apps.googleusercontent.com'||'')}"><div class="fhint">Get free at <a href="https://console.cloud.google.com" target="_blank" style="color:var(--a)">console.cloud.google.com</a></div></div>
         <button onclick="saveCIDSett()" class="btn bp" style="font-size:.8rem;padding:9px 18px;">Save & Reload</button>
       </div>
       <div class="settings-sec"><div class="ss-title">👍 Facebook Login</div>
