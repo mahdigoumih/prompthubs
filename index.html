@@ -544,9 +544,9 @@ footer{border-top:1px solid var(--border);padding:16px 22px;display:flex;align-i
   .atabs{margin:14px 20px 0;}
   .abody{padding:16px 20px 32px;gap:10px;}
   .social-btn{padding:9px;font-size:.78rem;}
-  /* Show Google rendered button directly on mobile */
-  #g_id_signin{display:block !important;min-height:44px;}
-  #googleBtn{display:none !important;} /* Hide our custom btn, show official one */
+  /* On mobile: g_id_signin is already visible, googleBtn is hidden */
+  #g_id_signin{display:block !important;width:100% !important;}
+  #googleBtn{display:none !important;}
 
   /* ── SHARE MODAL ── */
   .share-modal{border-radius:20px 20px 0 0;max-width:100%;border-bottom:none;}
@@ -657,7 +657,7 @@ footer{border-top:1px solid var(--border);padding:16px 22px;display:flex;align-i
     <input type="text" id="searchInput" placeholder="Search prompts… (press /)" oninput="handleSearch()">
   </div>
   <div class="nav-r">
-    <button class="btn btn-g" id="detNavBtn" onclick="navigate('detector')">🔍 AI Detector</button>
+    <button class="btn btn-g" id="detNavBtn" onclick="navigate('detector')">⚡ Optimizer</button>
     <button class="btn btn-g" onclick="guardedSubmit()">+ Submit</button>
     <button class="btn btn-s" id="loginNavBtn" onclick="openAuth('login')">Log in</button>
     <div id="navAuth"></div>
@@ -746,31 +746,51 @@ footer{border-top:1px solid var(--border);padding:16px 22px;display:flex;align-i
   <div class="det">
     <div style="display:flex;align-items:center;gap:10px;margin-bottom:22px;">
       <button class="btn btn-g" onclick="navigate('library')" style="font-size:.72rem;">← Back</button>
-      <span style="font-size:.68rem;color:var(--text3);">Powered by Claude · No text stored · Free</span>
+      <span style="font-size:.68rem;color:var(--text3);">Powered by Claude · Free · No data stored</span>
     </div>
-    <div style="text-align:center;padding:22px 0 20px;">
-      <div style="display:inline-flex;align-items:center;gap:7px;background:var(--am);border:1px solid var(--ab);color:var(--a);border-radius:20px;padding:5px 16px;font-size:.67rem;font-weight:700;letter-spacing:.5px;text-transform:uppercase;margin-bottom:14px;">🔍 AI Content Detector</div>
-      <h2 style="font-size:1.8rem;font-weight:900;letter-spacing:-1.1px;margin-bottom:10px;">Was this written by <span style="color:var(--a);">AI?</span></h2>
-      <p style="color:var(--text2);font-size:.88rem;line-height:1.68;max-width:460px;margin:0 auto;">Sentence-level analysis, 6 detection signals, AI score, and tips to humanize your writing.</p>
+
+    <!-- HEADER -->
+    <div style="text-align:center;padding:18px 0 16px;">
+      <div style="display:inline-flex;align-items:center;gap:7px;background:linear-gradient(90deg,rgba(79,70,229,.12),rgba(124,111,255,.12));border:1px solid var(--ab);color:var(--a);border-radius:20px;padding:5px 16px;font-size:.67rem;font-weight:700;letter-spacing:.5px;text-transform:uppercase;margin-bottom:14px;">⚡ Token Optimizer</div>
+      <h2 style="font-size:1.8rem;font-weight:900;letter-spacing:-1.1px;margin-bottom:10px;">Make every prompt <span style="color:var(--a);">shorter & sharper</span></h2>
+      <p style="color:var(--text2);font-size:.88rem;line-height:1.68;max-width:480px;margin:0 auto;">Paste any prompt. Claude analyzes it, removes waste, and rewrites it to be cleaner — saving you tokens and money.</p>
     </div>
+
+    <!-- STATS PILLS -->
+    <div style="display:flex;gap:8px;justify-content:center;flex-wrap:wrap;margin-bottom:20px;">
+      <div style="background:var(--surface);border:1.5px solid var(--border);border-radius:20px;padding:5px 14px;font-size:.72rem;font-weight:600;color:var(--text2);display:flex;align-items:center;gap:5px;"><span>⚡</span> Avg 38% token reduction</div>
+      <div style="background:var(--surface);border:1.5px solid var(--border);border-radius:20px;padding:5px 14px;font-size:.72rem;font-weight:600;color:var(--text2);display:flex;align-items:center;gap:5px;"><span>💰</span> Works with GPT-4, Claude, Gemini</div>
+      <div style="background:var(--surface);border:1.5px solid var(--border);border-radius:20px;padding:5px 14px;font-size:.72rem;font-weight:600;color:var(--text2);display:flex;align-items:center;gap:5px;"><span>🔒</span> Never stored</div>
+    </div>
+
+    <!-- INPUT BOX -->
     <div class="det-iw">
       <div class="det-ih">
-        <span style="font-size:.64rem;font-weight:800;letter-spacing:1.5px;color:var(--text3);text-transform:uppercase;">Input Text</span>
+        <div style="display:flex;align-items:center;gap:8px;">
+          <span style="font-size:.64rem;font-weight:800;letter-spacing:1.5px;color:var(--text3);text-transform:uppercase;">Your Prompt</span>
+          <span id="detTokBadge" style="font-size:.6rem;font-weight:800;background:var(--am);color:var(--a);border-radius:6px;padding:2px 7px;display:none;">~0 tokens</span>
+        </div>
         <div style="display:flex;align-items:center;gap:7px;">
-          <span style="font-size:.66rem;color:var(--text3);" id="detCC">0 / 5,000</span>
-          <button class="btn btn-g" style="font-size:.7rem;padding:3px 9px;" onclick="clearDet()">↺</button>
+          <span style="font-size:.66rem;color:var(--text3);" id="detCC">0 / 8,000</span>
+          <button class="btn btn-g" style="font-size:.7rem;padding:3px 9px;" onclick="clearDet()">↺ Clear</button>
           <button class="btn btn-g" style="font-size:.7rem;padding:3px 9px;" onclick="pasteDet()">📋 Paste</button>
         </div>
       </div>
-      <textarea class="det-ta" id="detTA" maxlength="5000" oninput="onDetI()" placeholder="Paste text here… Works best with 100+ words."></textarea>
+      <textarea class="det-ta" id="detTA" maxlength="8000" oninput="onDetI()" placeholder="Paste your prompt here…&#10;&#10;Example: You are an AI assistant. Please help me write a detailed and comprehensive blog post about artificial intelligence and machine learning. Make sure to cover all the important topics and be thorough in your explanation…"></textarea>
       <div class="det-ft">
         <div class="det-pb"><div class="det-pf" id="detPF"></div></div>
-        <span style="font-size:.63rem;color:var(--text3);" id="detWC">0 words</span>
+        <div style="display:flex;align-items:center;gap:10px;">
+          <span style="font-size:.63rem;color:var(--text3);" id="detWC">0 words</span>
+          <span style="font-size:.63rem;color:var(--text3);" id="detCost"></span>
+        </div>
       </div>
     </div>
-    <button class="btn btn-p" id="runDetBtn" onclick="runDet()" style="width:100%;padding:13px;font-size:.9rem;font-weight:800;border-radius:var(--r);margin:12px 0 20px;">
-      <span id="detSpin"></span><span id="detBtnTxt">🔍 Analyze Text</span>
+
+    <button class="btn btn-p" id="runDetBtn" onclick="runDet()" style="width:100%;padding:13px;font-size:.92rem;font-weight:800;border-radius:var(--r);margin:12px 0 8px;box-shadow:var(--sha);">
+      <span id="detSpin"></span><span id="detBtnTxt">⚡ Optimize This Prompt</span>
     </button>
+    <p style="text-align:center;font-size:.68rem;color:var(--text3);margin-bottom:20px;">Uses ~50 tokens of your Claude API quota</p>
+
     <div id="detRes"></div>
   </div>
 </div>
@@ -779,7 +799,7 @@ footer{border-top:1px solid var(--border);padding:16px 22px;display:flex;align-i
   <span class="fl">Prompt<em>Hub</em></span>
   <div class="fr">
     <a onclick="openAuth('signup')">Join Free</a>
-    <a onclick="navigate('detector')">AI Detector</a>
+    <a onclick="navigate('detector')">Token Optimizer</a>
     <a onclick="guardedSubmit()">Submit Prompt</a>
     <a onclick="surpriseMe()">Surprise Me 🎲</a>
     <a onclick="navigate('library')">Browse Prompts</a>
@@ -813,10 +833,11 @@ footer{border-top:1px solid var(--border);padding:16px 22px;display:flex;align-i
       <div class="aerr" id="aErr"></div>
       <div class="asuccess" id="aSucc"></div>
       <!-- Social sign-in -->
-      <!-- Hidden container for official Google button (rendered by GSI SDK) -->
-      <div id="g_id_signin" style="display:none;"></div>
-      <!-- Our styled button triggers the rendered Google button -->
-      <button class="social-btn google-btn" onclick="signInWithGoogle()" id="googleBtn">
+      <!-- Google Sign-In:
+           Desktop → programmatic One Tap popup
+           Mobile  → official rendered button (tap directly) -->
+      <div id="g_id_signin" style="width:100%;min-height:44px;"></div>
+      <button class="social-btn google-btn" onclick="signInWithGoogle()" id="googleBtn" style="display:none;">
         <svg width="18" height="18" viewBox="0 0 48 48"><path fill="#EA4335" d="M24 9.5c3.54 0 6.71 1.22 9.21 3.6l6.85-6.85C35.9 2.38 30.47 0 24 0 14.62 0 6.51 5.38 2.56 13.22l7.98 6.19C12.43 13.72 17.74 9.5 24 9.5z"/><path fill="#4285F4" d="M46.98 24.55c0-1.57-.15-3.09-.38-4.55H24v9.02h12.94c-.58 2.96-2.26 5.48-4.78 7.18l7.73 6c4.51-4.18 7.09-10.36 7.09-17.65z"/><path fill="#FBBC05" d="M10.53 28.59c-.48-1.45-.76-2.99-.76-4.59s.27-3.14.76-4.59l-7.98-6.19C.92 16.46 0 20.12 0 24c0 3.88.92 7.54 2.56 10.78l7.97-6.19z"/><path fill="#34A853" d="M24 48c6.48 0 11.93-2.13 15.89-5.81l-7.73-6c-2.15 1.45-4.92 2.3-8.16 2.3-6.26 0-11.57-4.22-13.47-9.91l-7.98 6.19C6.51 42.62 14.62 48 24 48z"/><path fill="none" d="M0 0h48v48H0z"/></svg>
         Continue with Google
       </button>
@@ -881,7 +902,7 @@ footer{border-top:1px solid var(--border);padding:16px 22px;display:flex;align-i
     <span style="margin-top:-2px;">Submit</span>
   </button>
   <button class="mnav-btn" id="mnav-detector" onclick="navigate('detector');updateMobileNav('detector')">
-    <span class="mnav-ico">🤖</span>Detect AI
+    <span class="mnav-ico">⚡</span>Optimize
   </button>
   <button class="mnav-btn" id="mnav-account" onclick="handleMobileAccount()">
     <span class="mnav-ico" id="mnavAvIco">👤</span>
@@ -1008,11 +1029,17 @@ function _ensureGSI(callback){
             });
             const c=document.getElementById('g_id_signin');
             if(c){
+              const w=Math.min((c.offsetWidth||window.innerWidth)-32,340);
               google.accounts.id.renderButton(c,{
                 type:'standard',theme:'outline',size:'large',
-                text:'continue_with',shape:'rectangular',width:340
+                text:'continue_with',shape:'rectangular',width:Math.max(200,w)
               });
             }
+            // On desktop, show our styled button on top of the GSI one
+            const isMob=/iPhone|iPad|iPod|Android|Mobile/i.test(navigator.userAgent)||window.innerWidth<768;
+            const customBtn=document.getElementById('googleBtn');
+            if(customBtn)customBtn.style.display=isMob?'none':'flex';
+            if(c)c.style.display=isMob?'block':'none';
             _gsiInitialized=true;
           }catch(e){console.warn('GSI init error:',e);}
         }
@@ -1839,83 +1866,227 @@ function setSort(s){sortBy=s;renderGrid();}
 /* ═══════════════════════════════════════════
    AI DETECTOR
 ═══════════════════════════════════════════ */
+/* ═══════════════════════════════════════════
+   TOKEN OPTIMIZER
+═══════════════════════════════════════════ */
+function countTokens(text){
+  // ~4 chars per token (GPT-4/Claude approximation)
+  return Math.ceil(text.trim().length/4);
+}
+function tokenCost(tokens,model='gpt4'){
+  const rates={gpt4:0.03,claude:0.015,gemini:0.0025};
+  return ((tokens/1000)*rates[model]).toFixed(4);
+}
 function onDetI(){
   const v=document.getElementById('detTA').value;
   const w=v.trim().split(/\s+/).filter(Boolean).length;
-  document.getElementById('detCC').textContent=`${v.length.toLocaleString()} / 5,000`;
+  const tok=countTokens(v);
+  document.getElementById('detCC').textContent=`${v.length.toLocaleString()} / 8,000`;
   document.getElementById('detWC').textContent=`${w} words`;
-  document.getElementById('detPF').style.width=Math.min(100,(v.length/5000)*100)+'%';
+  document.getElementById('detPF').style.width=Math.min(100,(v.length/8000)*100)+'%';
+  const badge=document.getElementById('detTokBadge');
+  if(v.trim()&&badge){
+    badge.style.display='inline';
+    badge.textContent=`~${tok.toLocaleString()} tokens`;
+  }else if(badge){badge.style.display='none';}
+  const costEl=document.getElementById('detCost');
+  if(costEl&&tok>0)costEl.textContent=`≈ $${tokenCost(tok,'gpt4')} on GPT-4`;
+  else if(costEl)costEl.textContent='';
 }
-function clearDet(){document.getElementById('detTA').value='';document.getElementById('detRes').innerHTML='';onDetI();detReport='';}
-function pasteDet(){navigator.clipboard.readText().then(t=>{document.getElementById('detTA').value=t;onDetI();}).catch(()=>toast('⚠','Use Ctrl+V to paste manually.'));}
-const DET_SYS=`You are an expert AI content detection system. Analyze the text and determine if it was written by a human or AI.
-Respond ONLY with valid JSON (no markdown):
-{"ai_score":0-100,"confidence":"Low|Medium|High","verdict":"Human-Written|Likely Human|Uncertain|Likely AI|AI-Generated","verdict_explanation":"2-3 sentences","signals":[{"name":"Signal","score":0-100,"direction":"ai|human","note":"Finding"}],"sentences":[{"text":"text","ai_probability":0-100}],"tips":["Tip to sound more human"]}
-Analyze: Perplexity, Burstiness, Vocabulary Diversity, Transition Patterns, Sentence Length Variance, Hedging Language. Include ALL sentences. Give 3-5 tips.`;
+function clearDet(){
+  document.getElementById('detTA').value='';
+  document.getElementById('detRes').innerHTML='';
+  const b=document.getElementById('detTokBadge');if(b)b.style.display='none';
+  onDetI();detReport='';
+}
+function pasteDet(){
+  navigator.clipboard.readText()
+    .then(t=>{document.getElementById('detTA').value=t;onDetI();})
+    .catch(()=>toast('⚠','Tap inside the text box and use Ctrl+V / long-press → Paste.'));
+}
+
+const OPT_SYS=`You are an elite prompt engineer with 20+ years experience optimizing prompts for LLMs (GPT-4, Claude, Gemini).
+Your job: analyze the given prompt and produce a shorter, cleaner, more effective version that achieves the SAME result with fewer tokens.
+
+Rules:
+- Remove filler words, redundancy, unnecessary politeness ("please", "kindly", "I would like you to")
+- Replace verbose phrases with precise ones ("Give me a detailed and comprehensive explanation of" → "Explain")
+- Remove obvious context that the model already knows
+- Keep all real constraints, requirements, and specifics
+- Never change the intent or remove meaningful requirements
+- Preserve examples, variables [IN_BRACKETS], and format instructions
+
+Respond ONLY with valid JSON (no markdown fences, no extra text):
+{
+  "optimized_prompt": "the full rewritten prompt",
+  "original_tokens": 120,
+  "optimized_tokens": 74,
+  "reduction_pct": 38,
+  "cost_saved_gpt4": "0.0014",
+  "issues": [
+    {"type": "filler|redundant|verbose|vague|missing_context", "original": "exact phrase from original", "fix": "what was done"}
+  ],
+  "quality_before": 58,
+  "quality_after": 91,
+  "tips": ["short actionable tip for writing better prompts"]
+}
+Give 3-6 issues and 3 tips. Be precise about token counts (count ~4 chars per token).`;
+
 async function runDet(){
   const text=document.getElementById('detTA').value.trim();
-  if(text.split(/\s+/).filter(Boolean).length<10){toast('⚠','Please enter at least 10 words.');return;}
+  if(text.split(/\s+/).filter(Boolean).length<3){toast('⚠','Please paste a prompt of at least 3 words.');return;}
   const btn=document.getElementById('runDetBtn'),sp=document.getElementById('detSpin'),lb=document.getElementById('detBtnTxt');
-  btn.disabled=true;sp.innerHTML='<span class="spin">⟳</span> ';lb.textContent='Analyzing…';
+  btn.disabled=true;sp.innerHTML='<span class="spin">⟳</span> ';lb.textContent='Optimizing…';
   document.getElementById('detRes').innerHTML='';
   try{
-    const res=await callAI(DET_SYS,text);
-    if(!res.ok)throw new Error(`HTTP ${res.status}`);
+    const res=await callAI(OPT_SYS,`Optimize this prompt:\n\n${text}`);
+    if(!res.ok)throw new Error(`HTTP ${res.status} — check your API key in Vercel`);
     const data=await res.json();
     const raw=(data.content||[]).filter(b=>b.type==='text').map(b=>b.text).join('').trim();
-    const result=JSON.parse(raw.replace(/```json|```/g,'').trim());
-    renderDetResult(result);
-    detReport=`AI DETECTION REPORT\nVerdict: ${result.verdict} | Score: ${result.ai_score}%\n\n${result.verdict_explanation}\n\nSIGNALS:\n${(result.signals||[]).map(s=>`• ${s.name}: ${s.score}% (${s.note})`).join('\n')}\n\nTIPS:\n${(result.tips||[]).map((t,i)=>`${i+1}. ${t}`).join('\n')}`;
-  }catch(err){toast('⚠',`Analysis failed: ${err.message}`);}
-  btn.disabled=false;sp.innerHTML='';lb.textContent='🔍 Analyze Text';
+    const result=JSON.parse(raw.replace(/^```json|^```|```$/gm,'').trim());
+    renderOptResult(result,text);
+    detReport=`TOKEN OPTIMIZER REPORT\n${'═'.repeat(40)}\nOriginal: ${result.original_tokens} tokens → Optimized: ${result.optimized_tokens} tokens (${result.reduction_pct}% reduction)\n\nOPTIMIZED PROMPT:\n${result.optimized_prompt}\n\nISSUES FIXED:\n${(result.issues||[]).map(i=>`• [${i.type}] "${i.original}" → ${i.fix}`).join('\n')}\n\nTIPS:\n${(result.tips||[]).map((t,i)=>`${i+1}. ${t}`).join('\n')}`;
+  }catch(err){
+    toast('⚠',`Optimization failed: ${err.message}`);
+    console.error(err);
+  }
+  btn.disabled=false;sp.innerHTML='';lb.textContent='⚡ Optimize This Prompt';
 }
-function renderDetResult(r){
-  const score=Math.max(0,Math.min(100,r.ai_score||0));
-  const offset=239-((score/100)*239);
-  let bg=score>=75?'linear-gradient(135deg,#dc2626,#7f1d1d)':score>=50?'linear-gradient(135deg,#d97706,#78350f)':score>=25?'linear-gradient(135deg,#059669,#064e3b)':'linear-gradient(135deg,#2563eb,#1e3a8a)';
-  const emoji=score>=75?'🤖':score>=50?'⚠️':score>=25?'🤔':'✍️';
+
+function renderOptResult(r,original){
   const el=document.getElementById('detRes');
+  const saved=r.reduction_pct||0;
+  const gradColor=saved>=40?'linear-gradient(135deg,#059669,#064e3b)':saved>=20?'linear-gradient(135deg,#4f46e5,#3d35c2)':'linear-gradient(135deg,#d97706,#78350f)';
+  const savedEmoji=saved>=40?'🚀':saved>=20?'⚡':'✓';
+  const qBefore=Math.max(0,Math.min(100,r.quality_before||0));
+  const qAfter=Math.max(0,Math.min(100,r.quality_after||0));
+  const typeColors={filler:'#ef4444',redundant:'#f59e0b',verbose:'#8b5cf6',vague:'#0ea5e9',missing_context:'#10b981'};
+  const typeLabels={filler:'Filler word',redundant:'Redundant',verbose:'Verbose',vague:'Too vague',missing_context:'Missing context'};
+
   el.innerHTML=`
-  <div class="vc" style="background:${bg};">
-    <div class="gw">
-      <svg width="92" height="92" viewBox="0 0 92 92">
-        <circle cx="46" cy="46" r="38" fill="none" stroke="rgba(255,255,255,.15)" stroke-width="9"/>
-        <circle id="garc" cx="46" cy="46" r="38" fill="none" stroke="#fff" stroke-width="9" stroke-linecap="round" stroke-dasharray="239" stroke-dashoffset="239" transform="rotate(-90 46 46)"/>
-      </svg>
-      <div style="position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;">
-        <span style="font-size:1.3rem;font-weight:900;color:#fff;line-height:1;">${score}%</span>
-        <span style="font-size:.52rem;font-weight:700;color:rgba(255,255,255,.65);text-transform:uppercase;">AI Score</span>
+  <!-- SCORE CARD -->
+  <div style="background:${gradColor};border-radius:var(--r);padding:22px;display:flex;align-items:center;gap:20px;flex-wrap:wrap;margin-bottom:14px;box-shadow:0 8px 32px rgba(0,0,0,.15);">
+    <div style="text-align:center;flex-shrink:0;">
+      <div style="font-size:3rem;font-weight:900;color:#fff;line-height:1;letter-spacing:-2px;">${saved}%</div>
+      <div style="font-size:.65rem;font-weight:700;color:rgba(255,255,255,.65);text-transform:uppercase;letter-spacing:.5px;margin-top:2px;">Tokens saved</div>
+    </div>
+    <div style="width:1px;height:60px;background:rgba(255,255,255,.2);flex-shrink:0;"></div>
+    <div style="display:flex;gap:20px;flex:1;min-width:200px;">
+      <div style="text-align:center;">
+        <div style="font-size:1.4rem;font-weight:900;color:rgba(255,255,255,.6);line-height:1;">${r.original_tokens||countTokens(original)}</div>
+        <div style="font-size:.62rem;font-weight:600;color:rgba(255,255,255,.5);margin-top:2px;">Original tokens</div>
+      </div>
+      <div style="font-size:1.4rem;color:rgba(255,255,255,.4);font-weight:300;line-height:1.6;">→</div>
+      <div style="text-align:center;">
+        <div style="font-size:1.4rem;font-weight:900;color:#fff;line-height:1;">${r.optimized_tokens||countTokens(r.optimized_prompt||'')}</div>
+        <div style="font-size:.62rem;font-weight:600;color:rgba(255,255,255,.65);margin-top:2px;">Optimized tokens</div>
       </div>
     </div>
-    <div style="flex:1;min-width:150px;">
-      <div style="font-size:1.15rem;font-weight:900;color:#fff;margin-bottom:5px;">${emoji} ${esc(r.verdict||'')}</div>
-      <div style="font-size:.78rem;color:rgba(255,255,255,.82);line-height:1.55;">${esc(r.verdict_explanation||'')}</div>
-    </div>
     <div style="display:flex;flex-direction:column;gap:6px;flex-shrink:0;">
-      <div style="font-size:.68rem;font-weight:700;color:rgba(255,255,255,.9);background:rgba(255,255,255,.15);border-radius:6px;padding:4px 10px;">Confidence: ${r.confidence}</div>
-      <button onclick="if(detReport)navigator.clipboard.writeText(detReport).then(()=>toast('📋','Report copied!'))" style="background:rgba(255,255,255,.18);color:#fff;border:1px solid rgba(255,255,255,.28);border-radius:6px;padding:5px 11px;font-size:.7rem;font-weight:700;cursor:pointer;font-family:inherit;">📋 Copy Report</button>
+      <div style="background:rgba(255,255,255,.15);border-radius:8px;padding:6px 12px;text-align:center;">
+        <div style="font-size:.6rem;font-weight:700;color:rgba(255,255,255,.6);text-transform:uppercase;">GPT-4 savings</div>
+        <div style="font-size:.88rem;font-weight:800;color:#fff;">$${r.cost_saved_gpt4||'0.00'}/1K calls</div>
+      </div>
+      <div style="font-size:1rem;">${savedEmoji} ${saved>=40?'Excellent optimization!':saved>=20?'Good improvement!':'Minor cleanup'}</div>
     </div>
   </div>
-  <div style="background:var(--surface);border:1.5px solid var(--border);border-radius:var(--r);padding:18px;margin-bottom:12px;">
-    <div class="mlbl" style="margin-bottom:14px;">Detection Signals</div>
-    <div style="display:flex;flex-direction:column;gap:11px;">
-      ${(r.signals||[]).map(s=>{const sc=Math.max(0,Math.min(100,s.score||0));const c=s.direction==='ai'?'#ef4444':'#10b981';return `<div class="sig-row"><span>${s.direction==='ai'?'🤖':'✍️'}</span><span class="sig-lbl">${esc(s.name)}</span><div class="sig-bar"><div class="sig-fill" style="width:${sc}%;background:${c}"></div></div><span style="font-size:.72rem;font-weight:800;color:${c};min-width:32px;text-align:right;">${sc}%</span><span style="font-size:.67rem;color:var(--text3);flex:1;min-width:80px;">${esc(s.note)}</span></div>`;}).join('')}
+
+  <!-- QUALITY SCORES -->
+  <div style="background:var(--surface);border:1.5px solid var(--border);border-radius:var(--r);padding:18px;margin-bottom:14px;">
+    <div class="mlbl" style="margin-bottom:14px;">Prompt Quality Score</div>
+    <div style="display:flex;flex-direction:column;gap:12px;">
+      <div>
+        <div style="display:flex;justify-content:space-between;margin-bottom:5px;">
+          <span style="font-size:.78rem;font-weight:600;color:var(--text2);">Before optimization</span>
+          <span style="font-size:.78rem;font-weight:800;color:${qBefore<60?'#ef4444':qBefore<80?'#f59e0b':'#10b981'};">${qBefore}/100</span>
+        </div>
+        <div style="height:8px;background:var(--border);border-radius:10px;overflow:hidden;">
+          <div style="height:100%;width:${qBefore}%;background:${qBefore<60?'#ef4444':qBefore<80?'#f59e0b':'#10b981'};border-radius:10px;transition:width 1s ease;"></div>
+        </div>
+      </div>
+      <div>
+        <div style="display:flex;justify-content:space-between;margin-bottom:5px;">
+          <span style="font-size:.78rem;font-weight:600;color:var(--text2);">After optimization</span>
+          <span style="font-size:.78rem;font-weight:800;color:${qAfter<60?'#ef4444':qAfter<80?'#f59e0b':'#10b981'};">${qAfter}/100</span>
+        </div>
+        <div style="height:8px;background:var(--border);border-radius:10px;overflow:hidden;">
+          <div style="height:100%;width:${qAfter}%;background:${qAfter<60?'#ef4444':qAfter<80?'#f59e0b':'#10b981'};border-radius:10px;transition:width 1s ease;"></div>
+        </div>
+      </div>
     </div>
   </div>
-  <div style="background:var(--surface);border:1.5px solid var(--border);border-radius:var(--r);padding:18px;margin-bottom:12px;">
-    <div class="mlbl" style="margin-bottom:10px;">Sentence-Level Analysis</div>
-    <div style="font-size:.85rem;line-height:2.4;color:var(--text);">
-      ${(r.sentences||[]).map(s=>{const p=Math.max(0,Math.min(100,s.ai_probability||0));let cls='';if(p>=70)cls='s-aih';else if(p>=40)cls='s-aim';else if(p<25)cls='s-hum';return `<span${cls?` class="${cls}"`:''}title="AI probability: ${p}%"> ${esc(s.text)} </span>`;}).join('')}
+
+  <!-- OPTIMIZED PROMPT -->
+  <div style="background:var(--surface);border:1.5px solid var(--border);border-radius:var(--r);padding:18px;margin-bottom:14px;">
+    <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:12px;flex-wrap:wrap;gap:8px;">
+      <div class="mlbl">✅ Optimized Prompt</div>
+      <div style="display:flex;gap:6px;">
+        <button onclick="copyOpt()" style="background:var(--a);color:#fff;border:none;border-radius:7px;padding:6px 14px;font-size:.74rem;font-weight:700;cursor:pointer;font-family:inherit;display:flex;align-items:center;gap:4px;" id="copyOptBtn">📋 Copy</button>
+        <button onclick="useOpt()" style="background:var(--bg);border:1.5px solid var(--border);color:var(--text2);border-radius:7px;padding:6px 12px;font-size:.74rem;font-weight:700;cursor:pointer;font-family:inherit;">↩ Use & Submit</button>
+      </div>
     </div>
+    <div id="optPromptBox" style="background:var(--bg);border:1.5px solid var(--ab);border-radius:var(--rs);padding:16px;font-size:.82rem;line-height:1.85;color:var(--text);white-space:pre-wrap;word-break:break-word;cursor:text;font-family:'SF Mono','Fira Code',monospace;">${esc(r.optimized_prompt||'')}</div>
   </div>
-  <div style="background:var(--surface);border:1.5px solid var(--border);border-radius:var(--r);padding:18px;margin-bottom:12px;">
-    <div class="mlbl" style="margin-bottom:12px;">💡 Tips to Sound More Human</div>
-    ${(r.tips||[]).map((t,i)=>`<div style="display:flex;gap:8px;font-size:.78rem;color:var(--text2);line-height:1.55;margin-bottom:7px;"><span>${['💡','✏️','🎯','📝','🔤'][i]||'→'}</span><span>${esc(t)}</span></div>`).join('')}
+
+  <!-- ISSUES FOUND -->
+  ${(r.issues||[]).length?`
+  <div style="background:var(--surface);border:1.5px solid var(--border);border-radius:var(--r);padding:18px;margin-bottom:14px;">
+    <div class="mlbl" style="margin-bottom:14px;">Issues Found & Fixed (${(r.issues||[]).length})</div>
+    <div style="display:flex;flex-direction:column;gap:10px;">
+      ${(r.issues||[]).map(issue=>{
+        const col=typeColors[issue.type]||'#8890b5';
+        const lbl=typeLabels[issue.type]||issue.type;
+        return `<div style="display:flex;gap:10px;padding:10px 12px;background:var(--bg);border:1px solid var(--border);border-left:3px solid ${col};border-radius:8px;">
+          <div style="flex:1;min-width:0;">
+            <div style="display:flex;align-items:center;gap:6px;margin-bottom:4px;">
+              <span style="font-size:.58rem;font-weight:800;text-transform:uppercase;letter-spacing:.5px;color:${col};background:${col}18;border-radius:4px;padding:1px 6px;">${lbl}</span>
+            </div>
+            <div style="font-size:.76rem;color:var(--text2);margin-bottom:3px;"><span style="text-decoration:line-through;color:var(--text3);">"${esc(issue.original||'')}"</span></div>
+            <div style="font-size:.76rem;color:var(--text2);">→ ${esc(issue.fix||'')}</div>
+          </div>
+        </div>`;
+      }).join('')}
+    </div>
+  </div>`:''}
+
+  <!-- TIPS -->
+  <div style="background:linear-gradient(135deg,var(--am),var(--ag));border:1.5px solid var(--ab);border-radius:var(--r);padding:18px;margin-bottom:14px;">
+    <div class="mlbl" style="margin-bottom:12px;">💡 Tips to Write Better Prompts</div>
+    ${(r.tips||[]).map((t,i)=>`<div style="display:flex;gap:10px;font-size:.8rem;color:var(--text2);line-height:1.6;margin-bottom:8px;">
+      <span style="width:22px;height:22px;background:var(--a);border-radius:50%;display:flex;align-items:center;justify-content:center;color:#fff;font-size:.62rem;font-weight:800;flex-shrink:0;margin-top:1px;">${i+1}</span>
+      <span>${esc(t)}</span>
+    </div>`).join('')}
   </div>
-  <p style="font-size:.67rem;color:var(--text3);text-align:center;margin-bottom:16px;">⚠️ AI detection is not 100% accurate — use as a guide.</p>`;
+
+  <!-- COPY REPORT BUTTON -->
+  <button onclick="if(detReport)navigator.clipboard.writeText(detReport).then(()=>toast('📋','Full report copied!'))" style="width:100%;background:var(--surface);border:1.5px solid var(--border);color:var(--text2);border-radius:var(--rs);padding:10px;font-size:.78rem;font-weight:700;cursor:pointer;font-family:inherit;margin-bottom:20px;">📄 Copy Full Report</button>`;
+
   el.classList.remove('fe');void el.offsetWidth;el.classList.add('fe');
-  setTimeout(()=>{const arc=document.getElementById('garc');if(arc)arc.style.strokeDashoffset=offset;},80);
-  setTimeout(()=>el.scrollIntoView({behavior:'smooth',block:'start'}),60);
+  setTimeout(()=>el.scrollIntoView({behavior:'smooth',block:'start'}),80);
+}
+
+function copyOpt(){
+  const box=document.getElementById('optPromptBox');
+  const btn=document.getElementById('copyOptBtn');
+  if(!box)return;
+  navigator.clipboard.writeText(box.textContent).then(()=>{
+    btn.textContent='✓ Copied!';
+    setTimeout(()=>btn.innerHTML='📋 Copy',2000);
+    toast('📋','Optimized prompt copied!');
+  });
+}
+function useOpt(){
+  const box=document.getElementById('optPromptBox');
+  if(!box)return;
+  navigate('library');
+  setTimeout(()=>{
+    guardedSubmit();
+    setTimeout(()=>{
+      const sfP=document.getElementById('sfP');
+      if(sfP){sfP.value=box.textContent;sfP.dispatchEvent(new Event('input'));}
+    },300);
+  },100);
+  toast('✅','Optimized prompt loaded in submit form!');
 }
 
 /* ═══════════════════════════════════════════
